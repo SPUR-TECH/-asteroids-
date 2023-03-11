@@ -125,6 +125,7 @@ function init() {
     particles = []
     animationId
     score = 0
+    scoreEl.innerHTML = 0
 }
 
 function spawnEnemies() {
@@ -288,6 +289,7 @@ addEventListener('touch', (event) => {
     )
 })
 
+// Restart game
 buttonEl.addEventListener('click', () => {
     init()
     animate()
@@ -303,6 +305,7 @@ buttonEl.addEventListener('click', () => {
     })
 })
 
+// Start game
 startButtonEl.addEventListener('click', () => {
     init()
     animate()

@@ -1,6 +1,8 @@
 body {
     margin: 0;
     background-color: black;
+    touch-action: pan-y;
+    touch-action: pan-x;
 }
 
 .score {
