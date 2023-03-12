@@ -75,21 +75,25 @@ function spawnEnemies() {
     }, 2000)
 }
 
+
+
 function spawnPowerUps() {
-    spawnPowerUpsId = setInterval(() => {
-        powerUps.push(
-            new PowerUp({
-                position: {
-                    x: -30,
-                    y: Math.random() * canvas.height
-                },
-                velocity: {
-                    x: Math.random() + 2,
-                    y: 0
-                }
-            })
-        )
-    }, 50000)
+    if (game.active) {
+        spawnPowerUps = setInterval(() => {
+            powerUps.push(
+                new PowerUp({
+                    position: {
+                        x: -30,
+                        y: Math.random() * canvas.height
+                    },
+                    velocity: {
+                        x: Math.random() + 2,
+                        y: 0
+                    }
+                })
+            )
+        }, 5000)
+    }
 }
 
 function createScoreLabel({
