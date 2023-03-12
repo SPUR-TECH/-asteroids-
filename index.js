@@ -22,7 +22,7 @@ let projectiles = []
 let enemies = []
 let particles = []
 let animationId
-let intervalId
+let intervalIdames
 let score = 0
 let powerUps = []
 let frames = 0
@@ -76,23 +76,20 @@ function spawnEnemies() {
 }
 
 function spawnPowerUps() {
-    if (game.active) {
-        spawnPowerUps = setInterval(() => {
-            // audio.throb.play()
-            powerUps.push(
-                new PowerUp({
-                    position: {
-                        x: -30,
-                        y: Math.random() * canvas.height
-                    },
-                    velocity: {
-                        x: Math.random() + 2,
-                        y: 0
-                    }
-                })
-            )
-        }, 10000)
-    }
+    spawnPowerUpsId = setInterval(() => {
+        powerUps.push(
+            new PowerUp({
+                position: {
+                    x: -30,
+                    y: Math.random() * canvas.height
+                },
+                velocity: {
+                    x: Math.random() + 2,
+                    y: 0
+                }
+            })
+        )
+    }, 10000)
 }
 
 function createScoreLabel({
@@ -140,13 +137,11 @@ function animate() {
             player.y - powerUp.position.y
         )
 
-        // Gain power up
+        // gain power up
         if (dist < powerUp.image.height / 2 + player.radius) {
-            audio.powerUpNoise.play()
             powerUps.splice(i, 1)
             player.powerUp = 'MachineGun'
             player.color = 'yellow'
-            audio.throb.stop()
 
             // power up runs out
             setTimeout(() => {
@@ -157,7 +152,7 @@ function animate() {
     }
 
 
-    // Machine gun animation / implementation
+    // machine gun animation / implementation
     if (player.powerUp === 'MachineGun') {
         const angle = Math.atan2(
             mouse.position.y - player.y,
@@ -168,15 +163,14 @@ function animate() {
             y: Math.sin(angle) * 5
         }
 
-        if (frames % 2 === 0) {
+        if (frames % 2 === 0)
             projectiles.push(
                 new Projectile(player.x, player.y, 5, 'yellow', velocity)
             )
-        }
-
-        if (frames % 6 === 0) {
+        if (frames % 8 === 0) {
             audio.shoot.play()
         }
+
     }
 
     for (let index = particles.length - 1; index >= 0; index--) {
@@ -212,13 +206,11 @@ function animate() {
 
         // End Game
         if (dist - enemy.radius - player.radius < 1) {
-            audio.throb.stop()
             audio.start.stop()
             cancelAnimationFrame(animationId)
             clearInterval(intervalId)
             audio.death.play()
             game.active = false
-            audio.throb.stop()
             modalEl.style.display = 'block'
             gsap.fromTo(
                 '#modalEl', {
@@ -298,9 +290,7 @@ addEventListener('click', (event) => {
             y: Math.sin(angle) * 5
         }
         projectiles.push(new Projectile(player.x, player.y, 5, 'white', velocity))
-
         audio.shoot.play()
-
     }
 })
 

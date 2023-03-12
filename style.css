@@ -92,6 +92,5 @@ button {
     font-size: 40px;
     margin-top: 50px;
     margin-bottom: 50px;
-    user-select: none;
     cursor: pointer;
 }

@@ -25,7 +25,8 @@ const audio = {
     }),
     start: new Howl({
         src: './audio/Hyper.wav',
-        volume: 0.1
+        volume: 0.1,
+        loop: true
     }),
     throb: new Howl({
         src: './audio/Throb.mp3',
