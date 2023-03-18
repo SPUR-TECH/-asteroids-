@@ -314,8 +314,13 @@ addEventListener('click', (event) => {
     })
 
     window.addEventListener('touchstart', (event) => {
+        event.preventDefault()
         const x = event.touches[0].clientX
         const y = event.touches[0].clientY
+
+        mouse.position.x = event.touches[0].clientX
+        mouse.position.y = event.touches[0].clientY
+
         shoot({
             x,
             y
@@ -348,6 +353,10 @@ addEventListener('mousemove', (event) => {
     mouse.position.y = event.clientY
 })
 
+addEventListener('touchmove', (event) => {
+    mouse.position.x = event.touches[0].clientX
+    mouse.position.y = event.touches[0].clientY
+})
 
 // Restart game
 buttonEl.addEventListener('click', (e) => {
