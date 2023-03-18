@@ -327,7 +327,7 @@ addEventListener('mousemove', (event) => {
     mouse.position.y = event.clientY
 })
 
-window.addEventListener('touchstart', (event) => {
+window.addEventListener('touchmove', (event) => {
     const x = event.touches[0].clientX
     const y = event.touches[0].clientY
 })
