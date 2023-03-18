@@ -324,13 +324,12 @@ addEventListener('mousemove', (event) => {
 
 // Restart game
 buttonEl.addEventListener('click', (e) => {
-    console.log(e)
     audio.select.play()
     audio.start.play()
     init()
     animate()
     spawnEnemies()
-    gsap.to('#startModalEl', {
+    gsap.to('#modalEl', {
         opacity: 0,
         scale: 0,
         duration: 0.65,
