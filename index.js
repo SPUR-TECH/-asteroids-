@@ -85,7 +85,7 @@ function spawnPowerUps() {
                 new PowerUp({
                     position: {
                         x: -30,
-                        y: Math.random() * canvas.height
+                        y: canvas.height / 2
                     },
                     velocity: {
                         x: Math.random() + 2,
@@ -93,7 +93,7 @@ function spawnPowerUps() {
                     }
                 })
             )
-        }, 5000)
+        }, 30000)
     }
 }
 
@@ -134,6 +134,7 @@ function animate() {
         const powerUp = powerUps[i]
 
         if (powerUp.position.x > canvas.width) {
+            audio.throb.stop()
             powerUps.splice(i, 1)
         } else powerUp.update()
 
@@ -144,6 +145,7 @@ function animate() {
 
         // gain power up
         if (dist < powerUp.image.height / 2 + player.radius) {
+            audio.throb.stop()
             powerUps.splice(i, 1)
             player.powerUp = 'MachineGun'
             player.color = 'yellow'
