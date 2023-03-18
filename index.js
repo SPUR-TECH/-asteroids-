@@ -79,7 +79,8 @@ function spawnEnemies() {
 
 function spawnPowerUps() {
     if (game.active) {
-        spawnPowerUps = setInterval(() => {
+        spawnPowerUpsId = setInterval(() => {
+            audio.throb.play()
             powerUps.push(
                 new PowerUp({
                     position: {
@@ -213,7 +214,9 @@ function animate() {
             audio.start.stop()
             cancelAnimationFrame(animationId)
             clearInterval(intervalId)
+            clearInterval(spawnPowerUpsId)
             audio.death.play()
+            audio.throb.stop()
             game.active = false
             modalEl.style.display = 'block'
             gsap.fromTo(
@@ -322,6 +325,11 @@ addEventListener('mousemove', (event) => {
     mouse.position.y = event.clientY
 })
 
+window.addEventListener('touchstart', (event) => {
+    const x = event.touches[0].clientX
+    const y = event.touches[0].clientY
+})
+
 // Restart game
 buttonEl.addEventListener('click', (e) => {
     audio.select.play()
@@ -329,6 +337,7 @@ buttonEl.addEventListener('click', (e) => {
     init()
     animate()
     spawnEnemies()
+    spawnPowerUps()
     gsap.to('#modalEl', {
         opacity: 0,
         scale: 0,
@@ -362,8 +371,23 @@ startModalEl.addEventListener('click', () => {
     })
 })
 
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        // inactive
+        // clearIntervals
+        clearInterval(intervalId)
+        clearInterval(spawnPowerUpsId)
+        audio.start.stop()
+        audio.throb.stop()
+    } else {
+        // spawnEnemies spawnPowerUps
+        spawnEnemies()
+        spawnPowerUps()
+        audio.start.play()
+    }
+})
+
 addEventListener('keydown', (event) => {
-    console.log(event.key)
     switch (event.key) {
         case 'ArrowRight':
             player.velocity.x += 1

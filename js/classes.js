@@ -177,8 +177,6 @@ class Particle {
     }
 }
 
-// const powerUp = new PowerUp({y: 100, x: 100,  velocity: { x: 0, y: 0 }})
-
 class PowerUp {
     constructor({
         position = {
@@ -197,6 +195,7 @@ class PowerUp {
         gsap.to(this, {
             alpha: 0,
             duration: 0.2,
+            rotate: 360,
             repeat: -1,
             yoyo: true,
             ease: 'linear'
