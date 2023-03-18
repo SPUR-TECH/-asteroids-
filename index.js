@@ -108,6 +108,7 @@ function createScoreLabel({
     scoreLabel.style.left = position.x + 'px'
     scoreLabel.style.top = position.y + 'px'
     scoreLabel.style.userSelect = 'none'
+    scoreLabel.style.pointerEvents = 'none'
     scoreLabel.style.fontSize = 30
     document.body.appendChild(scoreLabel)
 
@@ -291,9 +292,12 @@ function animate() {
     }
 }
 
-addEventListener('click', (event) => {
+function shoot({
+    x,
+    y
+}) {
     if (game.active) {
-        const angle = Math.atan2(event.clientY - player.y, event.clientX - player.x)
+        const angle = Math.atan2(y - player.y, x - player.x)
         const velocity = {
             x: Math.cos(angle) * 5,
             y: Math.sin(angle) * 5
@@ -301,20 +305,37 @@ addEventListener('click', (event) => {
         projectiles.push(new Projectile(player.x, player.y, 5, 'white', velocity))
         audio.shoot.play()
     }
+}
+
+addEventListener('click', (event) => {
+    shoot({
+        x: event.clientX,
+        y: event.clientY
+    })
+
+    window.addEventListener('touchstart', (event) => {
+        const x = event.touches[0].clientX
+        const y = event.touches[0].clientY
+        shoot({
+            x,
+            y
+        })
+    })
 })
 
-addEventListener('touch', (event) => {
-    event.preventDefault()
-    if (game.active) {
-        const angle = Math.atan2(event.clientY - player.y, event.clientX - player.x)
-        const velocity = {
-            x: Math.cos(angle) * 5,
-            y: Math.sin(angle) * 5
-        }
-        projectiles.push(new Projectile(player.x, player.y, 5, 'white', velocity))
-        audio.shoot.play()
-    }
-})
+
+// addEventListener('touch', (event) => {
+//     event.preventDefault()
+//     if (game.active) {
+//         const angle = Math.atan2(event.clientY - player.y, event.clientX - player.x)
+//         const velocity = {
+//             x: Math.cos(angle) * 5,
+//             y: Math.sin(angle) * 5
+//         }
+//         projectiles.push(new Projectile(player.x, player.y, 5, 'white', velocity))
+//         audio.shoot.play()
+//     }
+// })
 
 const mouse = {
     position: {
@@ -327,10 +348,6 @@ addEventListener('mousemove', (event) => {
     mouse.position.y = event.clientY
 })
 
-window.addEventListener('touchmove', (event) => {
-    const x = event.touches[0].clientX
-    const y = event.touches[0].clientY
-})
 
 // Restart game
 buttonEl.addEventListener('click', (e) => {

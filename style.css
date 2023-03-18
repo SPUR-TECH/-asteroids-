@@ -5,6 +5,10 @@ body {
     touch-action: pan-x;
 }
 
+* {
+    touch-action: none;
+}
+
 .score {
     position: absolute;
     color: yellow;
